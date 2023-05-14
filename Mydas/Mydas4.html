@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mydas</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"> // volver a ver este video para saber que pedo con esto, actualizar a Mydas5  </script>
+    <script defer src= "https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"></script>
+   
+   <script>
+        //Variables globales
+        let map;
+        let marker;
+        //Geolocalizacion
+        let watchID;
+        let geoloc;
+
+        function initMap(){
+            const myLatLng ={lat: 31.876141, lng: -116.655065 };
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 4,
+                center: myLatLng,
+            });
+
+        var image = new google.maps.MarkerImage(
+            'https://static.wikia.nocookie.net/evangelion/images/2/2c/Evangelion_Unit-01_front1.png/revision/latest?cb=20190520193846',
+
+                new google.maps.Size(50, 100), // Tamaño de la imagen
+                new google.maps.Point(0, 0), // Posición de la punta del pin
+                new google.maps.Point(25, 50), // Punto de anclaje (en este caso, el centro inferior de la imagen)
+                new google.maps.Size(50, 100) // Tamaño del pin
+        );
+
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map,
+                icon: image, // Establece la imagen como el pin del marcador
+                title: "Posicion actual"
+            });
+
+            marker.setMap(map);
+
+            getPosition();
+        }
+
+        function getPosition()
+        {
+            if(navigator.geolocation){
+                //ejecuta cada 60000 milisegundos (60 segundos, 1 minuto)
+                var options = {timeout:60000};
+                geoLoc = navigator.geolocation;
+                watchID = geoLoc.watchPosition(showLocationOnMap, errorHandler, options);
+            } else{
+                alert("Lo sentimos, el explorador no soporta geolocalizacion");
+            }
+        }
+
+        function showLocationOnMap(position){
+            var latitud = position.coords.latitude;
+            var loongitud = position.coords.longitude;
+            console.log("Latitud: " + latitud + " Longitud: " + loongitud);
+
+            const myLatLng = {lat: latitud, lng: loongitud};
+            marker.setPosition(myLatLng);
+            map.setCenter(myLatLng);
+        }
+
+        function errorHandler(err){
+            if(err.code == 1){
+                alert("Error: acceso denegado");
+            } else if(err.code == 2) {
+                alert("Error: Position no existe o no se encuentra");
+            }
+        }
+    </script>
+
+    <style type="text/css">
+        #map{
+            height: 100%;
+        }
+        html,
+        body{
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+  </head>
+<body>
+    <div id="map"></div>
+</body>    
+</html>

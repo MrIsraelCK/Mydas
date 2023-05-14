@@ -1,0 +1,105 @@
+<html>
+    <head>
+        <title>Mydas</title>
+
+            <script defer src= "https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"></script>
+           
+            <button id="miBoton">Inventario</button>
+
+            <script>
+            
+            function initMap(){ // alchile esta madre ni idea, nomas se que jala jkjdksj
+                const myLatLng ={lat: 31.876141, lng: -116.655065 };
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 10,
+                    center: myLatLng,
+                });
+
+            var image = new google.maps.MarkerImage(
+            'https://static.wikia.nocookie.net/evangelion/images/9/92/Shinji_Ikari.png/revision/latest?cb=20210731041210', // ruta de la imagen, (corregir esto)
+                new google.maps.Size(50, 100), // Tamaño de la imagen
+                new google.maps.Point(0, 0), // Posición de la punta del pin
+                new google.maps.Point(25, 50), // Punto de anclaje (en este caso, el centro inferior de la imagen)
+                new google.maps.Size(50, 100) // Tamaño del pin
+                ); 
+
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map,
+                icon: image, // Establece la imagen como el pin del marcador
+                title: "Posicion actual"
+            });
+
+            marker.setMap(map);
+
+            getPosition();
+  
+            // Agrega el botón dentro del mapa
+             var miBoton = document.getElementById('miBoton');
+             map.controls[google.maps.ControlPosition.TOP_LEFT].push(miBoton);
+
+             var miBoton = document.getElementById('miBoton');
+
+            miBoton.addEventListener('click', function() {
+            // Agrega aquí tu código para manejar el evento del botón
+            var miBoton = document.getElementById('miBoton');
+miBoton.addEventListener('click', function() {
+  window.open('inventario1.html', '_blank');
+});
+
+            });
+            }
+            
+
+            function getPosition(){
+                if(navigator.geolocation){
+                    var options = {timeout:60000}; //ejecuta cada 60000 milisegundos (60 segundos, 1 minuto)
+                    geoLoc = navigator.geolocation;
+                    watchID = geoLoc.watchPosition(showLocationOnMap, errorHandler, options);
+                } else{
+                    alert("Lo sentimos, el explorador no soporta geolocalizacion");
+                }
+            }
+
+            function showLocationOnMap(position){
+                var latitud = position.coords.latitude;
+                var loongitud = position.coords.longitude;
+                console.log("Latitud: " + latitud + " Longitud: " + loongitud);
+
+            const myLatLng = {lat: latitud, lng: loongitud};
+                marker.setPosition(myLatLng);
+                map.setCenter(myLatLng);
+            }
+
+            function errorHandler(err){
+                if(err.code == 1){
+                    alert("Error: acceso denegado");
+                } else if(err.code == 2) {
+                    alert("Error: Position no existe o no se encuentra");
+                }
+        }
+
+
+
+
+            </script>
+
+                <style type="text/css">
+                    #map{
+                        height: 100%;
+                    }
+                    html,
+                    body{
+                        height: 100%;
+                        margin: 0;
+                        padding: 0;
+                    }
+                </style>
+
+    </head> 
+
+    <body>
+        <div id="map"></div>
+    </body> 
+
+</html>

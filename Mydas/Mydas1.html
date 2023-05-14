@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa con marcadores aleatorios</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 31.876141, lng: -116.655065}, // San Francisco, California, EE. UU.
+                zoom: 4
+            });
+            var bounds = map.getBounds();
+
+            // Genera 10 marcadores aleatorios dentro de los límites del mapa
+            for (var i = 0; i < 10; i++) {
+                var latLng = new google.maps.LatLng(
+                    bounds.getSouthWest().lat() + (bounds.getNorthEast().lat() - bounds.getSouthWest().lat()) * Math.random(),
+                    bounds.getSouthWest().lng() + (bounds.getNorthEast().lng() - bounds.getSouthWest().lng()) * Math.random()
+                );
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+            }
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map" style="height: 500px;"></div>
+</body>
+</html>

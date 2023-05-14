@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventario</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 31.876141, lng: -116.655065}, // San Francisco, California, EE. UU.
+                zoom: 4
+            });
+            var bounds = map.getBounds();
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map" style="height: 500px;"></div>
+</body>
+</html>
